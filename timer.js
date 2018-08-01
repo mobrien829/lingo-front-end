@@ -26,27 +26,10 @@ function timerIncrement(){
     if (time === 0){
         clearInterval(timerInterval)
         inputOptions.forEach(node => node.firstElementChild.setAttribute("data-action", ""))
-        inputOptions.forEach(node => console.log(node.firstElementChild))
         // answerForm.id = "game-over"
         alert(`Out of time! Game over!`)
-        // answerForm.removeEventListener("click", function(event){
-        //     switch (event.target.dataset.action){
-        //         case "answer":
-        //             clearInterval(timerInterval)
-        //             time = 10
-        //             timerSeconds.innerHTML = `${time} seconds`
-        //             startTimer()
-        //             break
-        //         case "start-game":
-        //             event.preventDefault();
-        //             startTimer()
-        //             console.log(`start button pressed`)
-        //             break
-        //     }
-        // })
     } else {
     timerSeconds.innerText = `${--time} seconds`
-    console.log(`timer running`)
     }
 }
 

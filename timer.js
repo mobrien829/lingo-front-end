@@ -1,16 +1,19 @@
+// MAKE A GAME OVER CONDITION FOR TIMER
+
 let timerSeconds = document.getElementById("timer-text")
-let time = 11
+let time = 10
+const answerForm = document.getElementById("answer-form")
+let inputOptions = answerForm.querySelectorAll(".inputGroup")
 let timerInterval
 
-document.addEventListener("click", function(event){
+answerForm.addEventListener("click", function(event){
     
     switch (event.target.dataset.action){
         case "answer":
             clearInterval(timerInterval)
-            time = 11
+            time = 10
             timerSeconds.innerHTML = `${time} seconds`
             startTimer()
-            console.log(`answer button pressed`)
             break
         case "start-game":
             event.preventDefault();
@@ -22,7 +25,25 @@ document.addEventListener("click", function(event){
 function timerIncrement(){
     if (time === 0){
         clearInterval(timerInterval)
+        inputOptions.forEach(node => node.firstElementChild.setAttribute("data-action", ""))
+        inputOptions.forEach(node => console.log(node.firstElementChild))
+        // answerForm.id = "game-over"
         alert(`Out of time! Game over!`)
+        // answerForm.removeEventListener("click", function(event){
+        //     switch (event.target.dataset.action){
+        //         case "answer":
+        //             clearInterval(timerInterval)
+        //             time = 10
+        //             timerSeconds.innerHTML = `${time} seconds`
+        //             startTimer()
+        //             break
+        //         case "start-game":
+        //             event.preventDefault();
+        //             startTimer()
+        //             console.log(`start button pressed`)
+        //             break
+        //     }
+        // })
     } else {
     timerSeconds.innerText = `${--time} seconds`
     console.log(`timer running`)

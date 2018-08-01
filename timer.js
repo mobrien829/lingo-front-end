@@ -26,7 +26,6 @@ function timerIncrement(){
     if (time === 0){
         clearInterval(timerInterval)
         inputOptions.forEach(node => node.firstElementChild.setAttribute("data-action", ""))
-        // answerForm.id = "game-over"
         alert(`Out of time! Game over!`)
     } else {
     timerSeconds.innerText = `${--time} seconds`

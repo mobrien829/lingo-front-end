@@ -11,6 +11,9 @@
     <span>❤️❤️</span>
     </div>
     <div class="wrapper">
+      <div id="timer">
+        <div id="timer-text"></div>
+      </div>
       <div class="row">
         <div class="column" style="background-color:#FDE758; border-radius:20px;">
           <div class="audio" id="audio">
@@ -24,19 +27,19 @@
           <form class="multiple-choice">
             <span>한국</span><br>
             <div class="inputGroup">
-              <input type="radio" name="male" value="">
+              <input data-action="answer" type="radio" name="male" value="">
               <label for="radio1"></label>
             </div>
             <div class="inputGroup">
-              <input type="radio" name="male" value="">
+              <input data-action="answer" type="radio" name="male" value="">
               <label for="radio2"></label>
             </div>
             <div class="inputGroup">
-              <input type="radio" name="male" value="">
+              <input data-action="answer" type="radio" name="male" value="">
               <label for="radio3"></label>
             </div>
             <div class="inputGroup">
-              <input type="radio" name="male" value="">
+              <input data-action="answer" type="radio" name="male" value="">
               <label for="radio4"></label>
             </div>
             <!-- <input type="button" name="" value=""><br>
@@ -70,5 +73,6 @@
       </div>
     </div> -->
     <script type="text/javascript" src="index.js"></script>
+    <script type="text/javascript" src="timer.js"></script>
   </body>
 </html>

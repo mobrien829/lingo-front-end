@@ -5,7 +5,7 @@ const question = 'left,doctor,beer,korea,rice,police'
 const target = 'target=ko'
 
 const koreanWords = []
-const koreanEmojis = [⬅️,👩‍,🍺,🇰🇷,🍚,👮]
+const koreanEmojis = ["⬅️","👩‍","🍺","🇰🇷","🍚","👮"]
 
 function index(){
   fetch(backEndURL).then(r => r.json()).then(json => getApi(json.apiKey))

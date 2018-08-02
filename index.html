@@ -11,7 +11,31 @@
     <div class="hearts">
       <span>❤️❤️</span>
     </div>
+
     <div class="wrapper">
+      <div>
+        <div id="timer-text">
+        </div>
+      </div>
+      <div>
+        <div id="korean-aud-files">
+          <audio id="left-k">
+            <source src="http://www.nemoapps.com/audio/mp3/KORFND1_0788.mp3"/>
+          </audio>
+          <audio id="doctor-k">
+            <source src="http://www.nemoapps.com/audio/mp3/KORFND1_1165.mp3"/>
+          </audio>
+          <audio id="beer-k">
+            <source src="http://www.nemoapps.com/audio/mp3/KORFND1_0949.mp3"/>
+          </audio>
+          <audio id="korea-k">
+            <source src="http://www.nemoapps.com/audio/mp3/KORFND1_0066.mp3"/>
+          </audio>
+          <audio id="rice-k">
+            <source src="http://www.nemoapps.com/audio/mp3/KORFND1_1008.mp3"/>
+          </audio>
+        </div>
+      </div>
       <div class="row">
         <div class="column question">
           <div class="audio" id="audio">
@@ -21,28 +45,28 @@
             <span>🔊<span>
           </div>
           <div class="emoji" id="emoji">
-            
+
           </div>
         </div>
         <div class="column answers">
-          <form class="multiple-choice">
+          <form id="answer-form" class="multiple-choice">
             <div class="hanja">
               <p id="keyword">한국</p>
             </div>
             <div class="inputGroup">
-              <input type="radio" class="radio" name="male" value="">
+              <input type="radio" data-action="answer" class="radio" name="male" value="">
               <label for="radio1">korea</label>
             </div>
             <div class="inputGroup">
-              <input type="radio" class="radio" name="male" value="">
+              <input type="radio" data-action="answer" class="radio" name="male" value="">
               <label for="radio2"></label>
             </div>
             <div class="inputGroup">
-              <input type="radio" class="radio" name="male" value="">
+              <input type="radio" data-action="answer" class="radio" name="male" value="">
               <label for="radio3"></label>
             </div>
             <div class="inputGroup">
-              <input type="radio"  class="radio"name="male" value="">
+              <input type="radio" data-action="answer" class="radio"name="male" value="">
               <label for="radio4"></label>
             </div>
           </form>
@@ -70,6 +94,9 @@
       </div>
       </div>
     </div> -->
-    <!-- <script type="text/javascript" src="index.js"></script> -->
+    <script type="text/javascript" src="timer.js"></script>
+    <script type="text/javascript" src="audio.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+
   </body>
 </html>

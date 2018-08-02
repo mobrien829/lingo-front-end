@@ -96,3 +96,20 @@ label{
   font-size:170px;
   padding:40px;
 }
+
+#login-form{
+  position:absolute;
+  padding:10px;
+}
+#user-name{
+  font-size:20px;
+  border-radius:30px;
+  color:#f1616b
+}
+#submit-user{
+  padding:10px;
+  font-size:10px;
+  border-color:#f1616b;
+  border-radius:40px;
+  background-color:#f1616b
+}

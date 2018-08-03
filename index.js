@@ -14,7 +14,7 @@ const beerKoreanAudio = document.getElementById('beer-k');
 const koreaKoreanAudio = document.getElementById('korea-k');
 const riceKoreanAudio = document.getElementById('rice-k');
 const audioContainer = document.getElementById('audio');
-
+let i = 0
 let numTries = 0;
 const koreanAudioList = [leftKoreanAudio, doctorKoreanAudio, beerKoreanAudio, koreaKoreanAudio, riceKoreanAudio];
 
@@ -42,7 +42,6 @@ function assignKoreanWords(){
   const q5 = {word: koreanWords[4], enword: enWords[4], emoji: koreanEmojis[4], audio: koreanAudioList[4], answer: 'ssal', wrongAnswers:["seoul", 'ssal', "ssul", "ssalsa"]}
   const koreanArr = [q5, q2, q3, q4, q1]
 
-  let i=0
   loginForm.addEventListener("click", function(event){
     if (event.target.dataset.action === "login-start"){
       event.preventDefault()
@@ -52,14 +51,15 @@ function assignKoreanWords(){
   answerFormContainer.addEventListener("click", function(event){
     switch(event.target.dataset.action){
       case "answer":
-      event.preventDefault()
-      i++
-      renderImageForQuestion(koreanArr[i])
-      wordMatcher(event.target.value, koreanArr[i])
-      break;
+      renderAnswers(event.target, koreanArr[i])
+      addEventListenerForNext(koreanArr)
+      break
+      // i++
+      // renderImageForQuestion(koreanArr[i])
+      // wordMatcher(event.target.value, koreanArr[i])
+      // break;
     }
-  }
-)
+  })
 })}
 const heartContainer = document.getElementById('heart-container');
 const firstHeart = document.getElementById('heart-one');
@@ -109,6 +109,28 @@ function renderImageForQuestion(langObj){
       <label for="radio4">${langObj.wrongAnswers[3]}</label>
     </div>`
   answerFormContainer.innerHTML = answerRadioHTML
+}
+
+function addEventListenerForNext(array){
+  resultsContainer.addEventListener("click", function(event){
+    const nextButton = document.getElementById("next")
+    if (event.target == nextButton){
+      console.log(array)
+      i += 1
+      console.log(i)
+      console.log(array)
+      renderImageForQuestion(array[i])
+      resultsContainer.innerHTML = ""
+    }
+  })
+}
+
+function renderAnswers(input, wordObj){
+  if (input.value === wordObj.answer){
+    resultsContainer.innerHTML = renderIfCorrect()
+  } else {
+    resultsContainer.innerHTML = renderIfWrong()
+  }
 }
 
 function renderIfCorrect(){

@@ -141,6 +141,7 @@ function addEventListenerForNext(array){
     const nextButton = document.getElementById("next")
     if (event.target == nextButton){
       i += 1
+      time = 10
       renderImageForQuestion(array[i])
       resultsContainer.innerHTML = ""
     }

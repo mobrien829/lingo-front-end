@@ -14,18 +14,21 @@ loginForm.addEventListener("click", function(event){
             break
     }
 })
+
 function timerIncrement(){
     if (time === 0){
         clearInterval(timerInterval)
         // inputOptions.forEach(node => node.firstElementChild.setAttribute("data-action", ""))
         alert(`Out of time!`)
     } else {
+      console.log(time);
     timerSeconds.innerText = `${--time} seconds`
     console.log(timerSeconds)
     }
 }
 
 function startTimer(){
+  console.log('check');
     time = 10
     timerInterval = setInterval(timerIncrement, 1000)
 }

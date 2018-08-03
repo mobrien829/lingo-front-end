@@ -18,6 +18,7 @@ const userNameInput = document.getElementById("user-name");
 const scoreContainer = document.getElementById("score-results")
 let numTries = 0;
 const koreanAudioList = [leftKoreanAudio, doctorKoreanAudio, beerKoreanAudio, koreaKoreanAudio, riceKoreanAudio];
+// let timerSeconds = document.getElementById("timer-text")
 
 function index(){
   fetch(backEndURL).then(r => r.json()).then(json => getApi(json.apiKey))
@@ -144,6 +145,7 @@ function addEventListenerForNext(array){
       renderImageForQuestion(array[i])
       resultsContainer.innerHTML = ""
       startTimer()
+      // timerSeconds.innerText = `${time} seconds`
     }
   })
 }
@@ -155,7 +157,8 @@ function renderAnswers(input, wordObj){
     clearInterval(timerInterval)
     score++
     renderScore(score)
-  } if(input.value !== wordObj.answer){
+
+  } else if(input.value !== wordObj.answer){
     resultsContainer.innerHTML = renderIfWrong()
     clearInterval(timerInterval)
     wordMatcher()
@@ -165,7 +168,8 @@ function renderAnswers(input, wordObj){
 }
 
 function renderScore(scoreNum){
-  const scoreHTML = `<div style="position:absolute;left:0;font-size:30px;margin-top:60px;">score: ${score}</div>`
+  const scoreHTML = `<div style="position:absolute;left:0;font-size:25px;margin-top:60px;border-color:#f1616b;
+ border-radius:30px;background-color:#f1616b;padding:10px;">score: ${score}</div>`
   scoreContainer.innerHTML = scoreHTML
 }
 

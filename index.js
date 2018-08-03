@@ -6,7 +6,7 @@ const enWords = question.split(",")
 const target = 'target=ko'
 
 const koreanWords = []
-const koreanEmojis = ["⬅️","👩‍","🍺","🇰🇷","🍚"]
+const koreanEmojis = ["⬅️","👩‍⚕️","🍺","🇰🇷","🍚"]
 
 const leftKoreanAudio = document.getElementById('left-k');
 const doctorKoreanAudio = document.getElementById('doctor-k');
@@ -15,6 +15,7 @@ const koreaKoreanAudio = document.getElementById('korea-k');
 const riceKoreanAudio = document.getElementById('rice-k');
 const audioContainer = document.getElementById('audio');
 const userNameInput = document.getElementById("user-name");
+const scoreContainer = document.getElementById("score-results")
 let numTries = 0;
 const koreanAudioList = [leftKoreanAudio, doctorKoreanAudio, beerKoreanAudio, koreaKoreanAudio, riceKoreanAudio];
 
@@ -114,7 +115,6 @@ function assignKoreanWords(){
   answerFormContainer.addEventListener("click", function(event){
     switch(event.target.dataset.action){
       case "answer":
-      debugger
       renderAnswers(event.target, koreanArr[i])
       addEventListenerForNext(koreanArr)
       break;
@@ -135,6 +135,7 @@ function assignKoreanWords(){
 function playAudio(file) {
   file.play();
 }
+
 function addEventListenerForNext(array){
   resultsContainer.addEventListener("click", function(event){
     const nextButton = document.getElementById("next")
@@ -146,22 +147,32 @@ function addEventListenerForNext(array){
   })
 }
 let wrongTries = 0;
-
+let score = 0;
 function renderAnswers(input, wordObj){
   if (input.value === wordObj.answer){
     resultsContainer.innerHTML = renderIfCorrect()
+    score++
+    renderScore(score)
   } if(input.value !== wordObj.answer){
     resultsContainer.innerHTML = renderIfWrong()
     wordMatcher()
+    score--
+    renderScore(score)
   }
 }
+
+function renderScore(scoreNum){
+  const scoreHTML = `<div style="position:absolute;left:0;font-size:30px;margin-top:60px;">score: ${score}</div>`
+  scoreContainer.innerHTML = scoreHTML
+}
+
+
 const heartContainer = document.getElementById('heart-container');
 const firstHeart = document.getElementById('heart-one');
 const secondHeart = document.getElementById('heart-two');
 
 function wordMatcher() {
     wrongTries++;
-    debugger;
 
     switch(wrongTries){
       case 1:
@@ -170,7 +181,6 @@ function wordMatcher() {
       // debugger;
       break;
       case 2:
-      debugger
         heartContainer.firstElementChild.remove();
         heartContainer.innerHTML += generateEmptyHeart();
         endGame();
@@ -188,7 +198,6 @@ function wordMatcher() {
     //   endGame();
     //   alert("Better Luck Next Time!")
     // }
-    debugger;
 }
 
 function generateEmptyHeart() {
@@ -238,12 +247,12 @@ function renderImageForQuestion(langObj){
 
 function renderIfCorrect(){
   return `<p style="font-size:100px">⭕</p><button style="padding:15px;font-size:20px;
-  border-color:#f1616b;border-radius:40px;background-color:#f1616b" id="next">next question</button>`
+  border-color:#f1616b;border-radius:40px;background-color:#f1616b" id="next" data-action="next">next question</button>`
 }
 
 function renderIfWrong(){
   return `<p style="font-size:100px">❌</p><button style="padding:15px;font-size:20px;
-  border-color:#f1616b;border-radius:40px;background-color:#f1616b" id="next">next question</button>`
+  border-color:#f1616b;border-radius:40px;background-color:#f1616b" id="next" data-action="next">next question</button>`
 }
 
 // resultsContainer.innerHTML = renderIfCorrect()

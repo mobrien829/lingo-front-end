@@ -14,7 +14,7 @@ const beerKoreanAudio = document.getElementById('beer-k');
 const koreaKoreanAudio = document.getElementById('korea-k');
 const riceKoreanAudio = document.getElementById('rice-k');
 const audioContainer = document.getElementById('audio');
-
+const userNameInput = document.getElementById("user-name");
 let numTries = 0;
 const koreanAudioList = [leftKoreanAudio, doctorKoreanAudio, beerKoreanAudio, koreaKoreanAudio, riceKoreanAudio];
 
@@ -34,6 +34,67 @@ function storeWordsinArr(gtObj){
   splitArr.forEach(wordEl => koreanWords.push(wordEl))
 }
 
+let i=0
+const userURL = "http://localhost:3000/api/v1/users"
+const scoreURL = "http://localhost:3000/api/v1/scores"
+function addUser(name){
+  const postConfig = {
+    method:'POST',
+    headers:{
+      'Content-type':'application/json',
+      'Accept':'application/json'
+    },
+    body:JSON.stringify({name:name})
+  }
+  return fetch(userURL, postConfig).then(r=> r.json()).then(json=> console.log(json))
+}
+
+function createScores(lives, user_id){
+  const postConfig = {
+    method:'POST',
+    headers:{
+      'Content-type':'application/json',
+      'Accept':'application/json'
+    },
+    body:JSON.stringify({lives:lives, user_id:user_id})
+  }
+  return fetch(scoreURL, postConfig).then(r=> r.json()).then(json=> console.log(json))
+}
+
+function getUser(name) {
+  return fetch(userURL).then(r => r.json()).then(json => loadUsers(json, name))
+}
+
+// function getScores() {
+//   return fetch(scoreURL).then(r => r.json()).then(json => displayTopTenUsers(json))
+// }
+//
+// function displayTopTenUsers(json) {
+//   json.sort(function(a,b) {
+//     var keyA = a.lives
+//     var keyB = b.lives
+//     if(keyA < keyB) {
+//       return -1
+//     }
+//     else if(keyA > keyB) {
+//       return 1
+//     } else {
+//       return 0
+//     }
+//   }).reverse()
+//   return json.slice(0,10)
+// }
+
+function loadUsers(json, name) {
+  let user = json.find(user => {
+    return user.name === name
+  })
+  if(user === undefined) {
+    user = addUser(name)
+  }
+  return user
+}
+let audioTries = 0
 function assignKoreanWords(){
   const q1 = {word: koreanWords[0], enword: enWords[0], emoji: koreanEmojis[0], audio: koreanAudioList[0], answer: 'oenjjog', wrongAnswers:['oenjjog',"oleunjjog", "jjog", "owenjjog"]}
   const q2 = {word: koreanWords[1], enword: enWords[1], emoji: koreanEmojis[1], audio: koreanAudioList[1], answer: 'uisa', wrongAnswers:["elsa", "usa", 'uisa',"uija"]}
@@ -42,35 +103,92 @@ function assignKoreanWords(){
   const q5 = {word: koreanWords[4], enword: enWords[4], emoji: koreanEmojis[4], audio: koreanAudioList[4], answer: 'ssal', wrongAnswers:["seoul", 'ssal', "ssul", "ssalsa"]}
   const koreanArr = [q5, q2, q3, q4, q1]
 
-  let i=0
+
   loginForm.addEventListener("click", function(event){
     if (event.target.dataset.action === "login-start"){
       event.preventDefault()
+      addUser(userNameInput.value)
       renderImageForQuestion(koreanArr[i])
       // time= 10
     }
   answerFormContainer.addEventListener("click", function(event){
     switch(event.target.dataset.action){
       case "answer":
-      event.preventDefault()
-      i++
-      renderImageForQuestion(koreanArr[i])
-      wordMatcher(event.target.value, koreanArr[i])
+      debugger
+      renderAnswers(event.target, koreanArr[i])
+      addEventListenerForNext(koreanArr)
       break;
     }
-  }
-)
+  })
+
+  audioContainer.addEventListener('click', function audioClick(event){
+    event.preventDefault();
+      if(audioTries > 3){
+        alert("You've exceeded audio plays allowed. Give it your best shot!")
+      } else {
+        playAudio(koreanArr[i].audio);
+        audioContainer.firstElementChild.remove();
+        audioTries++;
+      }
+  });
 })}
+function playAudio(file) {
+  file.play();
+}
+function addEventListenerForNext(array){
+  resultsContainer.addEventListener("click", function(event){
+    const nextButton = document.getElementById("next")
+    if (event.target == nextButton){
+      i += 1
+      renderImageForQuestion(array[i])
+      resultsContainer.innerHTML = ""
+    }
+  })
+}
+let wrongTries = 0;
+
+function renderAnswers(input, wordObj){
+  if (input.value === wordObj.answer){
+    resultsContainer.innerHTML = renderIfCorrect()
+  } if(input.value !== wordObj.answer){
+    resultsContainer.innerHTML = renderIfWrong()
+    wordMatcher()
+  }
+}
 const heartContainer = document.getElementById('heart-container');
 const firstHeart = document.getElementById('heart-one');
 const secondHeart = document.getElementById('heart-two');
 
-function wordMatcher(inputWord, wordObj) {
-  if(inputWord !== wordObj.answer && numTries <= 2) {
-    firstHeart.remove();
-    heartContainer.innerHTML += generateEmptyHeart();
-    numTries++
-  }
+function wordMatcher() {
+    wrongTries++;
+    debugger;
+
+    switch(wrongTries){
+      case 1:
+      heartContainer.firstElementChild.remove();
+      heartContainer.innerHTML += generateEmptyHeart();
+      // debugger;
+      break;
+      case 2:
+      debugger
+        heartContainer.firstElementChild.remove();
+        heartContainer.innerHTML += generateEmptyHeart();
+        endGame();
+        alert("Better Luck Next Time!!!!!! lol")
+        break;
+    }
+    // if(wrongTries === 1){
+      // heartContainer.firstElementChild.remove();
+      // heartContainer.innerHTML += generateEmptyHeart();
+      // debugger;
+    //   //insert function call to proceed to the next question
+    // } if (wrongTries ===2){
+    //   heartContainer.firstElementChild.remove();
+    //   heartContainer.innerHTML += generateEmptyHeart();
+    //   endGame();
+    //   alert("Better Luck Next Time!")
+    // }
+    debugger;
 }
 
 function generateEmptyHeart() {
@@ -87,6 +205,13 @@ function renderImageForQuestion(langObj){
   const emojiHTML = `<div id="emoji-image">${langObj.emoji}</div>
   <div id="en-word" style="font-size:40px;color:#4A9CD5;">${langObj.enword}</div>`
   emojiContainer.innerHTML = emojiHTML
+  audioTries = 0
+  const audioHTML = `<span>🔊</span>
+  <span>🔊</span>
+  <span>🔊</span>
+  <span>🔊</span>`
+
+  audioContainer.innerHTML = audioHTML
 
   const mcHTML = `${langObj.word}`
   keyWordContainer.innerHTML = mcHTML
@@ -124,6 +249,6 @@ function renderIfWrong(){
 // resultsContainer.innerHTML = renderIfCorrect()
 
 function endGame(){
-  let inputOptions = answerForm.querySelectorAll(".inputGroup")
+  let inputOptions = answerFormContainer.querySelectorAll(".inputGroup")
   inputOptions.forEach(node => node.firstElementChild.setAttribute("data-action", ""))
 }

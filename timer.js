@@ -5,21 +5,21 @@ const loginForm = document.getElementById("login-form")
 // let inputOptions = answerForm.querySelectorAll(".inputGroup")
 let timerInterval
 
-loginForm.addEventListener("click", function(event){
-    switch (event.target.dataset.action){
-        case "login-start":
-            clearInterval(timerInterval)
-            time = 10
-            timerSeconds.innerHTML = `${time} seconds`
-            // startTimer()
-            break
-        case "start-game":
-            event.preventDefault();
-            startTimer()
-            console.log(`start button pressed`)
-            break
-    }
-})
+// loginForm.addEventListener("click", function(event){
+//     switch (event.target.dataset.action){
+//         case "login-start":
+//             clearInterval(timerInterval)
+//             time = 10
+//             timerSeconds.innerHTML = `${time} seconds`
+//             // startTimer()
+//             break
+//         case "start-game":
+//             event.preventDefault();
+//             startTimer()
+//             console.log(`start button pressed`)
+//             break
+//     }
+// })
 function timerIncrement(){
     if (time === 0){
         clearInterval(timerInterval)

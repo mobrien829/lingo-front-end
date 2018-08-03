@@ -8,6 +8,7 @@ const target = 'target=ko'
 const koreanWords = []
 const koreanEmojis = ["⬅️","👩‍⚕️","🍺","🇰🇷","🍚"]
 
+const loginDiv = document.getElementById("login")
 const leftKoreanAudio = document.getElementById('left-k');
 const doctorKoreanAudio = document.getElementById('doctor-k');
 const beerKoreanAudio = document.getElementById('beer-k');
@@ -21,6 +22,10 @@ const koreanAudioList = [leftKoreanAudio, doctorKoreanAudio, beerKoreanAudio, ko
 
 function index(){
   fetch(backEndURL).then(r => r.json()).then(json => getApi(json.apiKey))
+}
+
+function renderCurrentUser(input){
+  return `currently logged in: ${input}`
 }
 
 function getApi(apiKey){
@@ -109,12 +114,15 @@ function assignKoreanWords(){
     if (event.target.dataset.action === "login-start"){
       event.preventDefault()
       addUser(userNameInput.value)
+      loginDiv.innerHTML = renderCurrentUser(userNameInput.value)
       renderImageForQuestion(koreanArr[i])
       // time= 10
     }
   answerFormContainer.addEventListener("click", function(event){
+    console.log("clicky")
     switch(event.target.dataset.action){
       case "answer":
+      clearInterval(timerInterval)
       renderAnswers(event.target, koreanArr[i])
       addEventListenerForNext(koreanArr)
       break;
@@ -141,7 +149,9 @@ function addEventListenerForNext(array){
     const nextButton = document.getElementById("next")
     if (event.target == nextButton){
       i += 1
+      time = 10
       renderImageForQuestion(array[i])
+      startTimer()
       resultsContainer.innerHTML = ""
     }
   })

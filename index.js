@@ -110,8 +110,7 @@ function assignKoreanWords(){
       event.preventDefault()
       addUser(userNameInput.value)
       renderImageForQuestion(koreanArr[i])
-      // time= 10
-    }
+    }})
   answerFormContainer.addEventListener("click", function(event){
     switch(event.target.dataset.action){
       case "answer":
@@ -131,7 +130,7 @@ function assignKoreanWords(){
         audioTries++;
       }
   });
-})}
+}
 function playAudio(file) {
   file.play();
 }
@@ -141,8 +140,10 @@ function addEventListenerForNext(array){
     const nextButton = document.getElementById("next")
     if (event.target == nextButton){
       i += 1
+      time = 10
       renderImageForQuestion(array[i])
       resultsContainer.innerHTML = ""
+      startTimer()
     }
   })
 }
@@ -151,10 +152,12 @@ let score = 0;
 function renderAnswers(input, wordObj){
   if (input.value === wordObj.answer){
     resultsContainer.innerHTML = renderIfCorrect()
+    clearInterval(timerInterval)
     score++
     renderScore(score)
   } if(input.value !== wordObj.answer){
     resultsContainer.innerHTML = renderIfWrong()
+    clearInterval(timerInterval)
     wordMatcher()
     score--
     renderScore(score)
@@ -187,17 +190,6 @@ function wordMatcher() {
         alert("Better Luck Next Time!!!!!! lol")
         break;
     }
-    // if(wrongTries === 1){
-      // heartContainer.firstElementChild.remove();
-      // heartContainer.innerHTML += generateEmptyHeart();
-      // debugger;
-    //   //insert function call to proceed to the next question
-    // } if (wrongTries ===2){
-    //   heartContainer.firstElementChild.remove();
-    //   heartContainer.innerHTML += generateEmptyHeart();
-    //   endGame();
-    //   alert("Better Luck Next Time!")
-    // }
 }
 
 function generateEmptyHeart() {
